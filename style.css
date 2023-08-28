@@ -3,6 +3,10 @@ body {
   margin: 2em;
 }
 
+p{
+  color: white;
+}
+
 h1 {
   font-style: italic;
   color: #FF6F00;

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Teachable Machine By Joe MONKILA</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://unpkg.com/@tensorflow/tfjs@1.2.8" type="text/javascript"></script>                    -->
+    <script src="https://unpkg.com/@tensorflow-models/mobilenet@2.0.4" type="text/javascript"></script>
+  </head>
+  <body style="background-color: #1a1c29;">
+   
+    <p id="status">Veuillez patienter</p>
+
+    <video id="webcam" autoplay muted></video>
+
+    <button id="enableCam">Activer Webcam</button>
+    <button class="dataCollector" data-1hot="0" data-name="Class 1">Entrain d'etudier</button>
+    <button class="dataCollector" data-1hot="1" data-name="Class 2">Autres choses</button>
+    <button id="train">Entrainer &amp; Predire</button>
+    <button id="reset">Reset</button>
+
+    <!-- Import TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript" crossorigin="anonymous"></script>
+
+    <!-- Import the page's JavaScript to do some stuff -->
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
