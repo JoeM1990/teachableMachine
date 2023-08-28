@@ -25,6 +25,7 @@ button {
   padding: 10px;
   float: left;
   margin: 5px 3px 5px 10px;
+  /* margin-left: 40px; */
 }
 
 .removed {
