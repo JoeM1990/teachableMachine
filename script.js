@@ -1,3 +1,7 @@
+/*
+  Author : Joe MONKILA
+*/
+
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
 const RESULT = document.getElementById('result');
@@ -162,7 +166,9 @@ async function loadMobileNetFeatureModel() {
     }
     trainingDataInputs.length = 0;
     trainingDataOutputs.length = 0;
+
     STATUS.innerText = 'Aucune donnée';
+    RESULT.innerText = '';
   
     console.log('Tensors in memory: ' + tf.memory().numTensors);
   }
