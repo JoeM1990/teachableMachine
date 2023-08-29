@@ -9,7 +9,11 @@ p{
 
 h1 {
   font-style: italic;
-  color: #FF6F00;
+  color: white;
+  font-size: 80px;
+  /* margin-left: 60%; */
+  margin-top: 100px;
+  text-align: center;
 }
 
 video {

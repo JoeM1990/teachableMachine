@@ -1,5 +1,6 @@
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
+const RESULT = document.getElementById('result');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
 const TRAIN_BUTTON = document.getElementById('train');
@@ -177,8 +178,18 @@ async function loadMobileNetFeatureModel() {
         let prediction = model.predict(imageFeatures).squeeze();
         let highestIndex = prediction.argMax().arraySync();
         let predictionArray = prediction.arraySync();
+
+        console.log(CLASS_NAMES[highestIndex]);
   
-        STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% valeur';
+        STATUS.innerText = '';
+
+        if(CLASS_NAMES[highestIndex] == 'Class 1'){
+          RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+        }else{
+          RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+        }
+        
+      
       });
   
       window.requestAnimationFrame(predictLoop);
