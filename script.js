@@ -13,6 +13,9 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
+// let poseNet;
+// let poses = [];
+
 ENABLE_CAM_BUTTON.addEventListener('click', enableCam);
 TRAIN_BUTTON.addEventListener('click', trainAndPredict);
 RESET_BUTTON.addEventListener('click', reset);
@@ -93,16 +96,30 @@ async function loadMobileNetFeatureModel() {
   
       // Activate the webcam stream.
       navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+       
         VIDEO.srcObject = stream;
+
         VIDEO.addEventListener('loadeddata', function() {
           videoPlaying = true;
-          ENABLE_CAM_BUTTON.classList.add('removed');
+          //ENABLE_CAM_BUTTON.classList.add('removed');
+          ENABLE_CAM_BUTTON.remove();
+
+          // poseNet = ml5.poseNet(VIDEO, modelLoad);
+          // poseNet.on('pose', function(results) {
+          //   poses = results;
+          // });
+  
+          
         });
       });
     } else {
       console.warn('getUserMedia() is not supported by your browser');
     }
   }
+
+  // function modelLoad(){
+  //   console.log('Model charge');
+  // }
 
   function gatherDataForClass() {
     let classNumber = parseInt(this.getAttribute('data-1hot'));
@@ -130,8 +147,9 @@ async function loadMobileNetFeatureModel() {
       examplesCount[gatherDataState]++;
   
       STATUS.innerText = '';
+
       for (let n = 0; n < CLASS_NAMES.length; n++) {
-        STATUS.innerText += CLASS_NAMES[n] + ' Nombre de données: ' + examplesCount[n] + '. ';
+        STATUS.innerText += CLASS_NAMES[n] + ' Nombre de données: ' + examplesCount[n] + '    |    ';
       }
       window.requestAnimationFrame(dataGatherLoop);
     }
@@ -201,4 +219,52 @@ async function loadMobileNetFeatureModel() {
       window.requestAnimationFrame(predictLoop);
     }
   }
+
+
+  // function draw() {
+  //   // let width = 640;
+  //   // let height = 480;
+
+  //   image(VIDEO, 0, 0, width, height);
+  //   drawKeypoints();
+  //   drawSkeleton();
+  // }
+  
+  // function drawKeypoints()  {
+    
+  //   for (let i = 0; i < poses.length; i++) {
+      
+  //     let pose = poses[i].pose;
+  //     for (let j = 0; j < pose.keypoints.length; j++) {
+        
+  //       let keypoint = pose.keypoints[j];
+       
+  //       if (keypoint.score > 0.2) {
+  //         fill(255, 0, 0);
+  //         stroke(255, 255, 255);
+  //         strokeWeight(1);
+  //         ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
+  
+          
+  //       }
+  
+       
+  //     }
+  //   }
+  // }
+  
+  // function drawSkeleton() {
+    
+  //   for (let i = 0; i < poses.length; i++) {
+  //     let skeleton = poses[i].skeleton;
+     
+  //     for (let j = 0; j < skeleton.length; j++) {
+  //       let partA = skeleton[j][0];
+  //       let partB = skeleton[j][1];
+  //       stroke(255, 255, 255);
+  //       strokeWeight(5);
+  //       line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+  //     }
+  //   }
+  // }
 
