@@ -30,7 +30,9 @@
     <button class="dataCollector btn btn-primary" data-1hot="0" data-name="Class 1" style="margin-left: 20px; margin-top: 20px;">Entrain d'étudier</button>
     <button class="dataCollector btn btn-primary" data-1hot="1" data-name="Class 2" style="margin-left: 20px; margin-top: 20px;" >Autres choses</button>
     <button id="train" class="btn btn-warning" style="margin-left: 20px; margin-top: 20px;">Prédire</button>
-    <button id="reset" class="btn btn-danger" style="margin-left: 20px; margin-top: 20px;">Reset</button> <br>
+    <button id="reset" class="btn btn-danger" style="margin-left: 20px; margin-top: 20px;">Reset</button> 
+    <button class="btn btn-success" style="margin-left: 20px; margin-top: 20px;" data-bs-toggle="modal"
+    data-bs-target="#basicModal">Aide</button> <br>
     <br>
     <br>
     <h1 id="result"></h1>
@@ -41,4 +43,35 @@
     <!-- Import the page's JavaScript to do some stuff -->
     <script type="module" src="script.js"></script>
   </body>
+
+
+  <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel1">Instructions</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>Avant d'utiliser l'application <br> Attendez que le message "Veuillez patienter" change en API chargé avec success</li>
+            <li>Cliquez sur le bouton "Activer Webcam" pour activer votre camera</li>
+            <li>Utilisz les deux boutons "Entrain d'étudier" & "Autres choses" pour ajouter 
+              les données dans la base de données. Pour chacune de cas</li>
+            <li>Cliquez sur le bouton "prédire" pour entrainer le model et commencer
+              la prédiction
+            </li>
+            <li>Pour effacer toutes les données Utilisez le bouton reset</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </html>
