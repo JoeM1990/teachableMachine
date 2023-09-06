@@ -13,6 +13,23 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
+
+var firebaseConfig = {
+  apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
+  authDomain: "pose-estimation-28d64.firebaseapp.com",
+  projectId: "pose-estimation-28d64",
+  storageBucket: "pose-estimation-28d64.appspot.com",
+  messagingSenderId: "663567380839",
+  appId: "1:663567380839:web:8a437c1189c36f2bba3fc2",
+  databaseURL: "https://pose-estimation-28d64-default-rtdb.firebaseio.com",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+//var messagesRef = firebase.database().ref('status');
+
 // let poseNet;
 // let poses = [];
 
@@ -209,8 +226,45 @@ async function loadMobileNetFeatureModel() {
 
         if(CLASS_NAMES[highestIndex] == 'Class 1'){
           RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+
+          //var newMessageRef = messagesRef.push();
+          //newMessageRef.delete();
+          //newMessageRef.set({state: 0});
+
+          // db.collection("status")
+          // .get()
+          // .then(res => {
+          //   res.forEach(element => {
+          //     element.ref.delete();
+          //   });
+          // });
+          
+          // db.collection('status').add({
+          //   state: 0
+          //  });
+
+
         }else{
           RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+
+          //var newMessageRef = messagesRef.push();
+          //newMessageRef.setValue(null);
+          //newMessageRef.set({state: 1});
+
+          // db.collection("status")
+          // .get()
+          // .then(res => {
+          //   res.forEach(element => {
+          //     element.ref.delete();
+          //   });
+          // });
+
+
+          // db.collection('status').add({
+          //   state: 1
+          //  });
+
+
         }
         
       
