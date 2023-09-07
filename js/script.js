@@ -21,7 +21,7 @@ const CLASS_NAMES = [];
 
 
 
-firebase.initializeApp(firebaseConfig);
+//firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
