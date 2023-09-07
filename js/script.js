@@ -28,6 +28,10 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+const peerConnection = new RTCPeerConnection(configuration);
+
+
 //var messagesRef = firebase.database().ref('status');
 
 // let poseNet;
