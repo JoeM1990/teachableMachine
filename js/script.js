@@ -20,15 +20,6 @@ const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
 
-var firebaseConfig = {
-  apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
-  authDomain: "pose-estimation-28d64.firebaseapp.com",
-  projectId: "pose-estimation-28d64",
-  storageBucket: "pose-estimation-28d64.appspot.com",
-  messagingSenderId: "663567380839",
-  appId: "1:663567380839:web:8a437c1189c36f2bba3fc2",
-  databaseURL: "https://pose-estimation-28d64-default-rtdb.firebaseio.com",
-};
 
 firebase.initializeApp(firebaseConfig);
 
