@@ -4,6 +4,12 @@
 
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
+
+let getlocal;
+
+const REMOTE = document.getElementById('remote');
+
+
 const RESULT = document.getElementById('result');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
@@ -28,8 +34,15 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
-const peerConnection = new RTCPeerConnection(configuration);
+let pc1;
+let pc2;
+const offerOptions = {
+  offerToReceiveAudio: 1,
+  offerToReceiveVideo: 1
+};
+
+// const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+// const peerConnection = new RTCPeerConnection(configuration);
 
 
 //var messagesRef = firebase.database().ref('status');
@@ -120,6 +133,8 @@ async function loadMobileNetFeatureModel() {
        
         VIDEO.srcObject = stream;
 
+        getlocal=stream;
+
         VIDEO.addEventListener('loadeddata', function() {
           videoPlaying = true;
           //ENABLE_CAM_BUTTON.classList.add('removed');
@@ -129,6 +144,8 @@ async function loadMobileNetFeatureModel() {
           // poseNet.on('pose', function(results) {
           //   poses = results;
           // });
+
+          call();
   
           
         });
@@ -326,3 +343,147 @@ async function loadMobileNetFeatureModel() {
   //   }
   // }
 
+
+  async function call() {
+    
+    console.log('Starting call');
+    //startTime = window.performance.now();
+    const videoTracks = getlocal.getVideoTracks();
+    const audioTracks = getlocal.getAudioTracks();
+    if (videoTracks.length > 0) {
+      console.log(`Using video device: ${videoTracks[0].label}`);
+    }
+    if (audioTracks.length > 0) {
+      console.log(`Using audio device: ${audioTracks[0].label}`);
+    }
+    const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]};
+    console.log('RTCPeerConnection configuration:', configuration);
+    pc1 = new RTCPeerConnection(configuration);
+    console.log('Created local peer connection object pc1');
+    pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
+
+
+    pc2 = new RTCPeerConnection(configuration);
+    console.log('Created remote peer connection object pc2');
+    pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
+
+
+    pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
+
+
+    pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
+    pc2.addEventListener('track', gotRemoteStream);
+  
+    getlocal.getTracks().forEach(track => pc1.addTrack(track, getlocal));
+    console.log('Added local stream to pc1');
+  
+    try {
+      console.log('pc1 createOffer start');
+      const offer = await pc1.createOffer(offerOptions);
+      await onCreateOfferSuccess(offer);
+    } catch (e) {
+      onCreateSessionDescriptionError(e);
+    }
+  }
+
+
+function onCreateSessionDescriptionError(error) {
+  console.log(`Failed to create session description: ${error.toString()}`);
+}
+
+async function onCreateOfferSuccess(desc) {
+  console.log(`Offer from pc1\n${desc.sdp}`);
+  console.log('pc1 setLocalDescription start');
+  try {
+    await pc1.setLocalDescription(desc);
+    onSetLocalSuccess(pc1);
+  } catch (e) {
+    onSetSessionDescriptionError();
+  }
+
+  console.log('pc2 setRemoteDescription start');
+  try {
+    await pc2.setRemoteDescription(desc);
+    onSetRemoteSuccess(pc2);
+  } catch (e) {
+    onSetSessionDescriptionError();
+  }
+
+  console.log('pc2 createAnswer start');
+  // Since the 'remote' side has no media stream we need
+  // to pass in the right constraints in order for it to
+  // accept the incoming offer of audio and video.
+  try {
+    const answer = await pc2.createAnswer();
+    await onCreateAnswerSuccess(answer);
+  } catch (e) {
+    onCreateSessionDescriptionError(e);
+  }
+}
+
+  function onSetLocalSuccess(pc) {
+    console.log(`${getName(pc)} setLocalDescription complete`);
+  }
+  
+  function onSetRemoteSuccess(pc) {
+    console.log(`${getName(pc)} setRemoteDescription complete`);
+  }
+  
+  function onSetSessionDescriptionError(error) {
+    console.log(`Failed to set session description: ${error.toString()}`);
+  }
+  
+  function gotRemoteStream(e) {
+    if (REMOTE.srcObject !== e.streams[0]) {
+      REMOTE.srcObject = e.streams[0];
+      console.log('pc2 received remote stream');
+    }
+  }
+  
+  async function onCreateAnswerSuccess(desc) {
+    console.log(`Answer from pc2:\n${desc.sdp}`);
+    console.log('pc2 setLocalDescription start');
+    try {
+      await pc2.setLocalDescription(desc);
+      onSetLocalSuccess(pc2);
+    } catch (e) {
+      onSetSessionDescriptionError(e);
+    }
+    console.log('pc1 setRemoteDescription start');
+    try {
+      await pc1.setRemoteDescription(desc);
+      onSetRemoteSuccess(pc1);
+    } catch (e) {
+      onSetSessionDescriptionError(e);
+    }
+  }
+  
+  async function onIceCandidate(pc, event) {
+    try {
+      await (getOtherPc(pc).addIceCandidate(event.candidate));
+      onAddIceCandidateSuccess(pc);
+    } catch (e) {
+      onAddIceCandidateError(pc, e);
+    }
+    console.log(`${getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
+  }
+  
+  function onAddIceCandidateSuccess(pc) {
+    console.log(`${getName(pc)} addIceCandidate success`);
+  }
+  
+  function onAddIceCandidateError(pc, error) {
+    console.log(`${getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
+  }
+  
+  function onIceStateChange(pc, event) {
+    if (pc) {
+      console.log(`${getName(pc)} ICE state: ${pc.iceConnectionState}`);
+      console.log('ICE state change event: ', event);
+    }
+  }
+
+  function getName(pc) {
+    return (pc === pc1) ? 'pc1' : 'pc2';
+  }
+  
