@@ -23,7 +23,7 @@ const CLASS_NAMES = [];
 
 //firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+//const db = firebase.firestore();
 
 let pc1;
 let pc2;
@@ -364,6 +364,8 @@ async function loadMobileNetFeatureModel() {
 
     pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
     pc2.addEventListener('track', gotRemoteStream);
+
+    
   
     getlocal.getTracks().forEach(track => pc1.addTrack(track, getlocal));
     console.log('Added local stream to pc1');
@@ -481,4 +483,9 @@ async function onCreateOfferSuccess(desc) {
   function getOtherPc(pc) {
     return (pc === pc1) ? pc2 : pc1;
   }
+
+
+
+
+  
   
