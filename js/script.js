@@ -341,10 +341,11 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  var peer = new Peer({
-    secure:true,
-    host: 'https://joem1990.github.io/teachableMachine/',
-  });
+  var peer = new Peer(
+    'pc1Monkila',{
+      debug: 2
+  }
+  );
 
   peer.on('open', function () {
    idUser = peer.id;
@@ -352,8 +353,6 @@ async function loadMobileNetFeatureModel() {
   });
 
   let idAnother = 'pc2Monkila';
-
-  //conn = peer.connect(idAnother);
 
   function sendMessage(){
 
@@ -385,7 +384,7 @@ async function loadMobileNetFeatureModel() {
 
     // Activate the webcam stream.
     navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-      var call = peer.call('pc2', stream);
+      var call = peer.call(idAnother, stream);
         call.on('stream', function(remoteStream) {
         // Show stream in some video/canvas element.
         REMOTE.srcObject = remoteStream;
