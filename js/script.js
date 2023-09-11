@@ -343,7 +343,6 @@ async function loadMobileNetFeatureModel() {
 
   var peer = new Peer(
     'pc1Monkila',{
-      host: 'https://joem1990.github.io/teachableMachine/',
       debug: 2
   }
   );
