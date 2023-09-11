@@ -10,6 +10,7 @@ let getlocal;
 const REMOTE = document.getElementById('remote');
 
 
+
 const RESULT = document.getElementById('result');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
@@ -18,6 +19,9 @@ const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
+const OKK = document.getElementById('ok');
+
+OKK.addEventListener('click', shareVideo);
 
 
 
@@ -136,7 +140,7 @@ async function loadMobileNetFeatureModel() {
           //   poses = results;
           // });
 
-          call();
+          //test();
   
           
         });
@@ -334,158 +338,65 @@ async function loadMobileNetFeatureModel() {
   //   }
   // }
 
+  let idUser;
+  let conn;
 
-  async function call() {
-    
-    console.log('Starting call');
-    //startTime = window.performance.now();
-    const videoTracks = getlocal.getVideoTracks();
-    const audioTracks = getlocal.getAudioTracks();
-    if (videoTracks.length > 0) {
-      console.log(`Using video device: ${videoTracks[0].label}`);
-    }
-    if (audioTracks.length > 0) {
-      console.log(`Using audio device: ${audioTracks[0].label}`);
-    }
-    const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]};
-    console.log('RTCPeerConnection configuration:', configuration);
-    pc1 = new RTCPeerConnection(configuration);
-    console.log('Created local peer connection object pc1');
-    pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
+  var peer = new Peer(
+    'pc1', {
+      debug: 2
+  }
+  );
 
+  peer.on('open', function () {
+   idUser = peer.id;
+   console.log(peer.id)
+  });
 
-    pc2 = new RTCPeerConnection(configuration);
-    console.log('Created remote peer connection object pc2');
-    pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
+  let idAnother = 'pc2';
 
+  //conn = peer.connect(idAnother);
 
-    pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
+  function sendMessage(){
 
+    conn = peer.connect(idAnother, {reliable: true});
 
-    pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
-    pc2.addEventListener('track', gotRemoteStream);
+    conn.on('open', function(){
+      console.log('Connexion open');
+      conn.send('Hi');
+    });
 
-    
-  
-    getlocal.getTracks().forEach(track => pc1.addTrack(track, getlocal));
-    console.log('Added local stream to pc1');
-  
-    try {
-      console.log('pc1 createOffer start');
-      const offer = await pc1.createOffer(offerOptions);
-      await onCreateOfferSuccess(offer);
-    } catch (e) {
-      onCreateSessionDescriptionError(e);
-    }
+    //conn.send('Hi');
+
   }
 
+  function shareVideo(){
 
-function onCreateSessionDescriptionError(error) {
-  console.log(`Failed to create session description: ${error.toString()}`);
-}
+    conn = peer.connect(idAnother, {reliable: true});
 
-async function onCreateOfferSuccess(desc) {
-  console.log(`Offer from pc1\n${desc.sdp}`);
-  console.log('pc1 setLocalDescription start');
-  try {
-    await pc1.setLocalDescription(desc);
-    onSetLocalSuccess(pc1);
-  } catch (e) {
-    onSetSessionDescriptionError();
-  }
+    conn.on('open', function(){
+      console.log('Connexion open');
+      conn.send('Hi');
+    });
 
-  console.log('pc2 setRemoteDescription start');
-  try {
-    await pc2.setRemoteDescription(desc);
-    onSetRemoteSuccess(pc2);
-  } catch (e) {
-    onSetSessionDescriptionError();
-  }
+    const constraints = {
+      video: true,
+      width: 640,
+      height: 480
+    };
 
-  console.log('pc2 createAnswer start');
-  // Since the 'remote' side has no media stream we need
-  // to pass in the right constraints in order for it to
-  // accept the incoming offer of audio and video.
-  try {
-    const answer = await pc2.createAnswer();
-    await onCreateAnswerSuccess(answer);
-  } catch (e) {
-    onCreateSessionDescriptionError(e);
-  }
-}
-
-  function onSetLocalSuccess(pc) {
-    console.log(`${getName(pc)} setLocalDescription complete`);
+    // Activate the webcam stream.
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+      var call = peer.call('pc2', stream);
+        call.on('stream', function(remoteStream) {
+        // Show stream in some video/canvas element.
+        REMOTE.srcObject = remoteStream;
+     });
+    });
+   
   }
   
-  function onSetRemoteSuccess(pc) {
-    console.log(`${getName(pc)} setRemoteDescription complete`);
-  }
-  
-  function onSetSessionDescriptionError(error) {
-    console.log(`Failed to set session description: ${error.toString()}`);
-  }
-  
-  function gotRemoteStream(e) {
-    if (REMOTE.srcObject !== e.streams[0]) {
-      REMOTE.srcObject = e.streams[0];
-      console.log('pc2 received remote stream');
-    }
-  }
-  
-  async function onCreateAnswerSuccess(desc) {
-    console.log(`Answer from pc2:\n${desc.sdp}`);
-    console.log('pc2 setLocalDescription start');
-    try {
-      await pc2.setLocalDescription(desc);
-      onSetLocalSuccess(pc2);
-    } catch (e) {
-      onSetSessionDescriptionError(e);
-    }
-    console.log('pc1 setRemoteDescription start');
-    try {
-      await pc1.setRemoteDescription(desc);
-      onSetRemoteSuccess(pc1);
-    } catch (e) {
-      onSetSessionDescriptionError(e);
-    }
-  }
-  
-  async function onIceCandidate(pc, event) {
-    try {
-      await (getOtherPc(pc).addIceCandidate(event.candidate));
-      onAddIceCandidateSuccess(pc);
-    } catch (e) {
-      onAddIceCandidateError(pc, e);
-    }
-    console.log(`${getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-  }
-  
-  function onAddIceCandidateSuccess(pc) {
-    console.log(`${getName(pc)} addIceCandidate success`);
-  }
-  
-  function onAddIceCandidateError(pc, error) {
-    console.log(`${getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
-  }
-  
-  function onIceStateChange(pc, event) {
-    if (pc) {
-      console.log(`${getName(pc)} ICE state: ${pc.iceConnectionState}`);
-      console.log('ICE state change event: ', event);
-    }
-  }
-
-  function getName(pc) {
-    return (pc === pc1) ? 'pc1' : 'pc2';
-  }
-
-  function getOtherPc(pc) {
-    return (pc === pc1) ? pc2 : pc1;
-  }
-
-
 
 
   
-  
+
+
