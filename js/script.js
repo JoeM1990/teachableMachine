@@ -341,11 +341,10 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  var peer = new Peer(
-    'pc1Monkila', {
-      debug: 2
-  }
-  );
+  var peer = new Peer({
+    secure:true,
+    host: 'https://joem1990.github.io/teachableMachine/',
+  });
 
   peer.on('open', function () {
    idUser = peer.id;
