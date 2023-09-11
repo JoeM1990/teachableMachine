@@ -342,7 +342,7 @@ async function loadMobileNetFeatureModel() {
   let conn;
 
   var peer = new Peer(
-    'pc1', {
+    'pc1Monkila', {
       debug: 2
   }
   );
@@ -352,7 +352,7 @@ async function loadMobileNetFeatureModel() {
    console.log(peer.id)
   });
 
-  let idAnother = 'pc2';
+  let idAnother = 'pc2Monkila';
 
   //conn = peer.connect(idAnother);
 
