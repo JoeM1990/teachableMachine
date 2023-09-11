@@ -341,7 +341,7 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  var peer = new Peer({
+  var peer = new Peer('pc1Monkila',{
     secure:true,
     host: 'https://joem1990.github.io/teachableMachine/',
   });
