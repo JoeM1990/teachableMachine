@@ -341,19 +341,17 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  // var peer2 = new Peer('pc1Monkila', {
-  //   //host: 'https://github.com/JoeM1990/teachableMachine',
-  //   debug:2 });
+  var peerTest = new Peer('pc1Monkila', {
+    //host: 'https://github.com/JoeM1990/teachableMachine',
+    debug:2 });
 
-  // peer2.destroy();
+  peerTest.destroy();
 
   var peer = new Peer('pc1Monkila', {
       //host: 'https://github.com/JoeM1990/teachableMachine',
       debug:2 });
 
   
-  //peer.disconnect();
-
   peer.on('open', function () {
    idUser = peer.id;
    console.log(peer.id)
