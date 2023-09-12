@@ -128,20 +128,12 @@ async function loadMobileNetFeatureModel() {
        
         VIDEO.srcObject = stream;
 
-        getlocal=stream;
+        shareVideo();
 
         VIDEO.addEventListener('loadeddata', function() {
           videoPlaying = true;
           //ENABLE_CAM_BUTTON.classList.add('removed');
           ENABLE_CAM_BUTTON.remove();
-
-          // poseNet = ml5.poseNet(VIDEO, modelLoad);
-          // poseNet.on('pose', function(results) {
-          //   poses = results;
-          // });
-
-          //test();
-  
           
         });
       });
@@ -341,7 +333,7 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  var peer = new Peer('pc10Monkila', {
+  var peer = new Peer(null, {
       //host: 'https://github.com/JoeM1990/teachableMachine',
       debug:2 });
 
@@ -368,7 +360,9 @@ async function loadMobileNetFeatureModel() {
 
   function shareVideo(){
 
-    conn = peer.connect(idAnother, {reliable: true});
+    let idConnect = window.prompt("Veuillez introduire l'identifiant");
+
+    conn = peer.connect(idConnect, {reliable: true});
 
     conn.on('open', function(){
       console.log('Connexion open');
