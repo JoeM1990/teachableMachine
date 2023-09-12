@@ -341,13 +341,7 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
-  var peerTest = new Peer('pc1Monkila', {
-    //host: 'https://github.com/JoeM1990/teachableMachine',
-    debug:2 });
-
-  peerTest.destroy();
-
-  var peer = new Peer('pc1Monkila', {
+  var peer = new Peer('pc10Monkila', {
       //host: 'https://github.com/JoeM1990/teachableMachine',
       debug:2 });
 
