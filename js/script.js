@@ -329,6 +329,8 @@ async function loadMobileNetFeatureModel() {
   let idUser;
   let conn;
 
+  let idConnect;
+
   var peer = new Peer(null, {
       //host: 'https://github.com/JoeM1990/teachableMachine',
       debug:2 });
@@ -339,24 +341,9 @@ async function loadMobileNetFeatureModel() {
    console.log(peer.id)
   });
 
-  let idAnother = 'pc2Monkila';
-
-  function sendMessage(){
-
-    conn = peer.connect(idAnother, {reliable: true});
-
-    conn.on('open', function(){
-      console.log('Connexion open');
-      conn.send('Hi');
-    });
-
-    //conn.send('Hi');
-
-  }
-
   function shareVideo(){
 
-    let idConnect = window.prompt("Veuillez introduire l'identifiant");
+    idConnect = window.prompt("Veuillez introduire l'identifiant");
 
     conn = peer.connect(idConnect, {reliable: true});
 
@@ -381,6 +368,20 @@ async function loadMobileNetFeatureModel() {
     });
    
   }
+
+  function sendMessage(){
+
+    conn = peer.connect(idConnect, {reliable: true});
+
+    conn.on('open', function(){
+      console.log('Connexion open');
+      conn.send('Hi');
+    });
+
+    //conn.send('Hi');
+
+  }
+
   
 
 
