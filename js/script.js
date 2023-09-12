@@ -373,7 +373,7 @@ async function loadMobileNetFeatureModel() {
 
     // Activate the webcam stream.
     navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-      var call = peer.call(idAnother, stream);
+      var call = peer.call(idConnect, stream);
         call.on('stream', function(remoteStream) {
         // Show stream in some video/canvas element.
         REMOTE.srcObject = remoteStream;
