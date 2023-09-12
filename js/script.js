@@ -19,9 +19,6 @@ const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
-const OKK = document.getElementById('ok');
-
-OKK.addEventListener('click', shareVideo);
 
 
 
