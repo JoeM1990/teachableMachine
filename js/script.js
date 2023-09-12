@@ -10,7 +10,6 @@ let getlocal;
 const REMOTE = document.getElementById('remote');
 
 
-
 const RESULT = document.getElementById('result');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
