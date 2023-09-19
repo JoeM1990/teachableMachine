@@ -40,7 +40,7 @@ const messaging = firebase.messaging();
   // });
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(res => {
+    navigator.serviceWorker.register('sw.js').then(res => {
       console.log("Register Success");
       messaging.useServiceWorker(res);
     }).catch(e => {
