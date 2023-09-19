@@ -59,8 +59,6 @@ const messaging = firebase.messaging();
  });
 
 
- 
-
 
 
 //const db = firebase.firestore();
