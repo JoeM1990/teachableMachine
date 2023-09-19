@@ -19,9 +19,49 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
+var firebaseConfig = {
+    apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
+    authDomain: "pose-estimation-28d64.firebaseapp.com",
+    projectId: "pose-estimation-28d64",
+    storageBucket: "pose-estimation-28d64.appspot.com",
+    messagingSenderId: "663567380839",
+    appId: "1:663567380839:web:8a437c1189c36f2bba3fc2"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
+
+  
 
 
-//firebase.initializeApp(firebaseConfig);
+  // messaging.onMessage(function(payload){
+  //     console.log('onMessage: ',payload);
+  // });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then(res => {
+      console.log("Register Success");
+      messaging.useServiceWorker(res);
+    }).catch(e => {
+      console.log(e);
+    });
+  }
+
+  messaging.requestPermission().then(function() {
+    //getToken(messaging);
+    return messaging.getToken();
+ }).then(function(token){
+ console.log(token);
+ })
+     .catch(function(err) {
+     console.log('Permission denied', err);
+ });
+
+
+ 
+
+
 
 //const db = firebase.firestore();
 
