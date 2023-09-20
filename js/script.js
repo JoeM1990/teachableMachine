@@ -19,7 +19,6 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
-
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
@@ -42,7 +41,7 @@ function sendPush () {
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      "Authorization": "key=AAAAmn-ysWc:APA91bFjeQbCM_PysjKI0QGq13JxH8nzYqaisn-DKKvuOwXZBGnB2cAE4W27vrtKWERJiWr8MqYXSPGk5xYQTbtrYAwh8sxv8d3K7tP9EwK6tPhczF7Qua-qgpyPy7xWodOhzD9FOcd4",
+      "Authorization": "key="+'',
     },
     })
       .then(res => res.json())
