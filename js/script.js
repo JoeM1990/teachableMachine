@@ -64,7 +64,6 @@ function sendPush () {
           alert(err);
       });
 }
-
 //const db = firebase.firestore();
 
 let pc1;
