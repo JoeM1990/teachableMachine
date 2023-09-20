@@ -32,34 +32,38 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-  
+let token;
 
 
-  // messaging.onMessage(function(payload){
-  //     console.log('onMessage: ',payload);
-  // });
+let MSG = document.getElementById('msg');
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(res => {
-      console.log("Register Success");
-      messaging.useServiceWorker(res);
-    }).catch(e => {
-      console.log(e);
-    });
-  }
+MSG.addEventListener('click', sendPush);
 
-  messaging.requestPermission().then(function() {
-    //getToken(messaging);
-    return messaging.getToken();
- }).then(function(token){
- console.log(token);
- })
-     .catch(function(err) {
-     console.log('Permission denied', err);
- });
-
-
-
+function sendPush () {
+  // Sending Push notifications to user using fetch api
+  fetch("https://fcm.googleapis.com/v1/pose-estimation/messages:send", {
+    method: "POST",
+    body: JSON.stringify({
+      title: "Hello World",
+      body: "My POST request",
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      "Authorization": "key=AAAAmn-ysWc:APA91bGoVFZonTUlywwJRgbRXyAT_kbsbX0kUfWcS-wh5smFBLMUng5arRTTSUCClUKXsLWIvtKm7LOuzxZCtErc1ch2ShokROHhHYjDYCTMl06lj8iN5eIWQ0aTpMLbNe3wTcHtnyQD",
+    },
+    })
+      .then(res => res.json())
+      .then(data => {
+          if (data.failure == 1) {
+              alert("Token Expire");
+          } else {
+              alert("Send Success");
+          }
+      })
+      .catch(err => {
+          alert(err);
+      });
+}
 
 //const db = firebase.firestore();
 
