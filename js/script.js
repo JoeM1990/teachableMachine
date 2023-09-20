@@ -18,6 +18,19 @@ const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
+const Connect = document.getElementById('connect');
+
+
+Connect.addEventListener('click', shareVideo);
+
+var firebaseConfig = {
+  apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
+  authDomain: "pose-estimation-28d64.firebaseapp.com",
+  projectId: "pose-estimation-28d64",
+  storageBucket: "pose-estimation-28d64.appspot.com",
+  messagingSenderId: "663567380839",
+  appId: "1:663567380839:web:8a437c1189c36f2bba3fc2"
+};
 
 firebase.initializeApp(firebaseConfig);
 
@@ -25,10 +38,6 @@ const messaging = firebase.messaging();
 
 let token;
 
-
-let MSG = document.getElementById('msg');
-
-MSG.addEventListener('click', sendPush);
 
 function sendPush () {
   // Sending Push notifications to user using fetch api
@@ -157,7 +166,7 @@ async function loadMobileNetFeatureModel() {
        
         VIDEO.srcObject = stream;
 
-        shareVideo();
+        //shareVideo();
 
         VIDEO.addEventListener('loadeddata', function() {
           videoPlaying = true;
@@ -396,7 +405,7 @@ async function loadMobileNetFeatureModel() {
       var call = peer.call(idConnect, stream);
         call.on('stream', function(remoteStream) {
         // Show stream in some video/canvas element.
-        REMOTE.srcObject = remoteStream;
+        //REMOTE.srcObject = remoteStream;
      });
     });
    
