@@ -19,14 +19,6 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 
-var firebaseConfig = {
-    apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
-    authDomain: "pose-estimation-28d64.firebaseapp.com",
-    projectId: "pose-estimation-28d64",
-    storageBucket: "pose-estimation-28d64.appspot.com",
-    messagingSenderId: "663567380839",
-    appId: "1:663567380839:web:8a437c1189c36f2bba3fc2"
-};
 
 firebase.initializeApp(firebaseConfig);
 
@@ -41,15 +33,16 @@ MSG.addEventListener('click', sendPush);
 
 function sendPush () {
   // Sending Push notifications to user using fetch api
-  fetch("https://fcm.googleapis.com/v1/pose-estimation/messages:send", {
+  fetch("https://fcm.googleapis.com/fcm/send", {
     method: "POST",
     body: JSON.stringify({
       title: "Hello World",
       body: "My POST request",
+      to: ""
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      "Authorization": "key=AAAAmn-ysWc:APA91bGoVFZonTUlywwJRgbRXyAT_kbsbX0kUfWcS-wh5smFBLMUng5arRTTSUCClUKXsLWIvtKm7LOuzxZCtErc1ch2ShokROHhHYjDYCTMl06lj8iN5eIWQ0aTpMLbNe3wTcHtnyQD",
+      "Authorization": "key=AAAAmn-ysWc:APA91bFjeQbCM_PysjKI0QGq13JxH8nzYqaisn-DKKvuOwXZBGnB2cAE4W27vrtKWERJiWr8MqYXSPGk5xYQTbtrYAwh8sxv8d3K7tP9EwK6tPhczF7Qua-qgpyPy7xWodOhzD9FOcd4",
     },
     })
       .then(res => res.json())
