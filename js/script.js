@@ -19,9 +19,12 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 const Connect = document.getElementById('connect');
+const Send = document.getElementById('send');
 
 
 Connect.addEventListener('click', shareVideo);
+
+Send.addEventListener('click', sendPush);
 
 var firebaseConfig = {
   apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
@@ -38,19 +41,30 @@ const messaging = firebase.messaging();
 
 let token;
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("../js/firebase-messaging-sw.js")
+    .then(function(registration) {
+      console.log("Registration successful, scope is:", registration.scope);
+    })
+    .catch(function(err) {
+      console.log("Service worker registration failed, error:", err);
+    });
+}
+
 
 function sendPush () {
   // Sending Push notifications to user using fetch api
   fetch("https://fcm.googleapis.com/fcm/send", {
     method: "POST",
     body: JSON.stringify({
-      title: "Hello World",
-      body: "My POST request",
-      to: ""
+      title: "SmartHome",
+      body: 'okkk',
+      to: "fFq3uK3NSiGbVq3wKRTaWV:APA91bGbkn5WLM57z7Hpl5yvq-BcBELOuJQlRu94L1P11G06MRl7ao4b0Ak8F48wmnzGdozvCfFP0zfdNr1d3gEyNk0o0eb54OrqHLFVh67YOuUpmE9WPQ196-tf4nvcYAPtmJYU50fV"
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      "Authorization": "key="+'',
+      "Authorization": "key="+'AAAAmn-ysWc:APA91bFjeQbCM_PysjKI0QGq13JxH8nzYqaisn-DKKvuOwXZBGnB2cAE4W27vrtKWERJiWr8MqYXSPGk5xYQTbtrYAwh8sxv8d3K7tP9EwK6tPhczF7Qua-qgpyPy7xWodOhzD9FOcd4',
     },
     })
       .then(res => res.json())
@@ -270,50 +284,54 @@ async function loadMobileNetFeatureModel() {
   
         STATUS.innerText = '';
 
-        if(CLASS_NAMES[highestIndex] == 'Class 1'){
-          RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
-
-          //var newMessageRef = messagesRef.push();
-          //newMessageRef.delete();
-          //newMessageRef.set({state: 0});
-
-          // db.collection("status")
-          // .get()
-          // .then(res => {
-          //   res.forEach(element => {
-          //     element.ref.delete();
-          //   });
-          // });
-          
-          // db.collection('status').add({
-          //   state: 0
-          //  });
+        setTimeout(()=>{
 
 
-        }else{
-          RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+          if(CLASS_NAMES[highestIndex] == 'Class 1'){
+            RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+  
+            //var newMessageRef = messagesRef.push();
+            //newMessageRef.delete();
+            //newMessageRef.set({state: 0});
+  
+            // db.collection("status")
+            // .get()
+            // .then(res => {
+            //   res.forEach(element => {
+            //     element.ref.delete();
+            //   });
+            // });
+            
+            // db.collection('status').add({
+            //   state: 0
+            //  });
+  
+  
+          }else{
+            RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
+  
+            //var newMessageRef = messagesRef.push();
+            //newMessageRef.setValue(null);
+            //newMessageRef.set({state: 1});
+  
+            // db.collection("status")
+            // .get()
+            // .then(res => {
+            //   res.forEach(element => {
+            //     element.ref.delete();
+            //   });
+            // });
+  
+  
+            // db.collection('status').add({
+            //   state: 1
+            //  });
+  
+  
+          }
 
-          //var newMessageRef = messagesRef.push();
-          //newMessageRef.setValue(null);
-          //newMessageRef.set({state: 1});
+        }, 60000);
 
-          // db.collection("status")
-          // .get()
-          // .then(res => {
-          //   res.forEach(element => {
-          //     element.ref.delete();
-          //   });
-          // });
-
-
-          // db.collection('status').add({
-          //   state: 1
-          //  });
-
-
-        }
-        
-      
       });
   
       window.requestAnimationFrame(predictLoop);
