@@ -24,10 +24,6 @@ const Connect = document.getElementById('connect');
 
 Connect.addEventListener('click', shareVideo);
 
-
-
-
-
 // firebase.initializeApp(firebaseConfig);
 
 
