@@ -26,59 +26,16 @@ Connect.addEventListener('click', shareVideo);
 
 Send.addEventListener('click', sendPush);
 
-var firebaseConfig = {
-  apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
-  authDomain: "pose-estimation-28d64.firebaseapp.com",
-  projectId: "pose-estimation-28d64",
-  storageBucket: "pose-estimation-28d64.appspot.com",
-  messagingSenderId: "663567380839",
-  appId: "1:663567380839:web:8a437c1189c36f2bba3fc2"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const messaging = firebase.messaging();
-
-let token;
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("../js/firebase-messaging-sw.js")
-    .then(function(registration) {
-      console.log("Registration successful, scope is:", registration.scope);
-    })
-    .catch(function(err) {
-      console.log("Service worker registration failed, error:", err);
-    });
-}
 
 
-function sendPush () {
-  // Sending Push notifications to user using fetch api
-  fetch("https://fcm.googleapis.com/fcm/send", {
-    method: "POST",
-    body: JSON.stringify({
-      title: "SmartHome",
-      body: 'okkk',
-      to: "fFq3uK3NSiGbVq3wKRTaWV:APA91bGbkn5WLM57z7Hpl5yvq-BcBELOuJQlRu94L1P11G06MRl7ao4b0Ak8F48wmnzGdozvCfFP0zfdNr1d3gEyNk0o0eb54OrqHLFVh67YOuUpmE9WPQ196-tf4nvcYAPtmJYU50fV"
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-      "Authorization": "key="+'AAAAmn-ysWc:APA91bFjeQbCM_PysjKI0QGq13JxH8nzYqaisn-DKKvuOwXZBGnB2cAE4W27vrtKWERJiWr8MqYXSPGk5xYQTbtrYAwh8sxv8d3K7tP9EwK6tPhczF7Qua-qgpyPy7xWodOhzD9FOcd4',
-    },
-    })
-      .then(res => res.json())
-      .then(data => {
-          if (data.failure == 1) {
-              alert("Token Expire");
-          } else {
-              alert("Send Success");
-          }
-      })
-      .catch(err => {
-          alert(err);
-      });
-}
+// firebase.initializeApp(firebaseConfig);
+
+
+let url = window.location.search;
+let getparameterList = new URLSearchParams(url);
+let phoneNumber = getparameterList.get('phone');
+console.log('Phone :' +phoneNumber);
+
 //const db = firebase.firestore();
 
 let pc1;
@@ -440,6 +397,10 @@ async function loadMobileNetFeatureModel() {
 
     //conn.send('Hi');
 
+  }
+
+  function sendMessageOnApi(){
+    
   }
 
   
