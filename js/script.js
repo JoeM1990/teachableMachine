@@ -19,12 +19,12 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = [];
 const Connect = document.getElementById('connect');
-const Send = document.getElementById('send');
+
 
 
 Connect.addEventListener('click', shareVideo);
 
-Send.addEventListener('click', sendPush);
+
 
 
 
