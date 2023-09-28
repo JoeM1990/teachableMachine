@@ -26,11 +26,12 @@ Connect.addEventListener('click', shareVideo);
 
 // firebase.initializeApp(firebaseConfig);
 
-
+let phoneNumber;
 let url = window.location.search;
 let getparameterList = new URLSearchParams(url);
-let phoneNumber = getparameterList.get('phone');
-console.log('Phone :' +phoneNumber);
+//phoneNumber = getparameterList.get('phone');
+phoneNumber = '243816717846'
+//console.log('Phone :' +phoneNumber);
 
 //const db = firebase.firestore();
 
@@ -242,48 +243,47 @@ async function loadMobileNetFeatureModel() {
 
           if(CLASS_NAMES[highestIndex] == 'Class 1'){
             RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
-  
-            //var newMessageRef = messagesRef.push();
-            //newMessageRef.delete();
-            //newMessageRef.set({state: 0});
-  
-            // db.collection("status")
-            // .get()
-            // .then(res => {
-            //   res.forEach(element => {
-            //     element.ref.delete();
-            //   });
-            // });
-            
-            // db.collection('status').add({
-            //   state: 0
-            //  });
-  
+
+            let msg = "L'enfant est entrain d'etudier"
+            fetch("https://cryptic-headland-94862.herokuapp.com/https://api2.dream-digital.info/api/SendSMS?api_id=API11953300243&api_password=JmjHbEl4st&sms_type=T&encoding=T&sender_id=SmartHome&phonenumber="+phoneNumber+"&textmessage="+msg, {
+              method: "POST",
+              // body: JSON.stringify({
+              //   title: "Hello World",
+              //   body: "My POST request",
+              //   userId: 900,
+              // }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
   
           }else{
             RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
   
-            //var newMessageRef = messagesRef.push();
-            //newMessageRef.setValue(null);
-            //newMessageRef.set({state: 1});
-  
-            // db.collection("status")
-            // .get()
-            // .then(res => {
-            //   res.forEach(element => {
-            //     element.ref.delete();
-            //   });
-            // });
-  
-  
-            // db.collection('status').add({
-            //   state: 1
-            //  });
-  
-  
+            let msg = "L'enfant fait autres choses"
+            fetch("https://cryptic-headland-94862.herokuapp.com/https://api2.dream-digital.info/api/SendSMS?api_id=API11953300243&api_password=JmjHbEl4st&sms_type=T&encoding=T&sender_id=SmartHome&phonenumber="+phoneNumber+"&textmessage="+msg, {
+              method: "POST",
+              // body: JSON.stringify({
+              //   title: "Hello World",
+              //   body: "My POST request",
+              //   userId: 900,
+              // }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+           
           }
 
-        }, 60000);
+        }, 6000);
 
       });
   
