@@ -245,41 +245,13 @@ async function loadMobileNetFeatureModel() {
             RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
 
             let msg = "L'enfant est entrain d'etudier"
-            fetch("https://cryptic-headland-94862.herokuapp.com/https://api2.dream-digital.info/api/SendSMS?api_id=API11953300243&api_password=JmjHbEl4st&sms_type=T&encoding=T&sender_id=SmartHome&phonenumber="+phoneNumber+"&textmessage="+msg, {
-              method: "POST",
-              // body: JSON.stringify({
-              //   title: "Hello World",
-              //   body: "My POST request",
-              //   userId: 900,
-              // }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true,
-              },
-            })
-            .then((response) => response.json())
-            .then((json) => console.log(json));
+            
   
           }else{
             RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
   
             let msg = "L'enfant fait autres choses"
-            fetch("https://cryptic-headland-94862.herokuapp.com/https://api2.dream-digital.info/api/SendSMS?api_id=API11953300243&api_password=JmjHbEl4st&sms_type=T&encoding=T&sender_id=SmartHome&phonenumber="+phoneNumber+"&textmessage="+msg, {
-              method: "POST",
-              // body: JSON.stringify({
-              //   title: "Hello World",
-              //   body: "My POST request",
-              //   userId: 900,
-              // }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true,
-              },
-            })
-            .then((response) => response.json())
-            .then((json) => console.log(json));
+            
            
           }
 
