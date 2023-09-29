@@ -29,8 +29,8 @@ Connect.addEventListener('click', shareVideo);
 let phoneNumber;
 let url = window.location.search;
 let getparameterList = new URLSearchParams(url);
-//phoneNumber = getparameterList.get('phone');
-phoneNumber = '243816717846'
+phoneNumber = getparameterList.get('phone');
+//phoneNumber = '243816717846'
 //console.log('Phone :' +phoneNumber);
 
 //const db = firebase.firestore();
@@ -245,17 +245,44 @@ async function loadMobileNetFeatureModel() {
             RESULT.innerText =  " L'enfant est entrain d'étudier | " + 'Prédiction ' +' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
 
             let msg = "L'enfant est entrain d'etudier"
-            
+            fetch("http://localhost:9000/api/messagerie", {
+              method: "POST",
+              body: JSON.stringify({
+                phone: phoneNumber,
+                msg: msg,
+              }),
+              headers: {
+                'Accept': 'application/json',
+                "Content-type": "application/json; charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              },
+            })
+            .then((response) => console.log(response))
+           
   
           }else{
             RESULT.innerText =  " L'enfant fait autres choses | " + 'Prédiction '+' avec ' + Math.floor(predictionArray[highestIndex] * 100) + '% comme valeur';
   
             let msg = "L'enfant fait autres choses"
-            
+            fetch("http://localhost:9000/api/messagerie", {
+              method: "POST",
+              body: JSON.stringify({
+                'phone': phoneNumber,
+                'msg': msg,
+              }),
+              headers: {
+                'Accept': 'application/json',
+                "Content-type": "application/json; charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              },
+            })
+            .then((response) => console.log(response))
            
           }
 
-        }, 6000);
+        }, 60000);
 
       });
   
