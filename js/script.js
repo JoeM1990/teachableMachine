@@ -282,7 +282,7 @@ async function loadMobileNetFeatureModel() {
            
           }
 
-        }, 60000);
+        }, 6000);
 
       });
   
