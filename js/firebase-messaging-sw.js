@@ -1,6 +1,7 @@
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 
+
 firebase.initializeApp({
 	apiKey: "AIzaSyA5xZXI_dCPXnl3xLj30qAY1YYhKMeaHZA",
     authDomain: "pose-estimation-28d64.firebaseapp.com",
