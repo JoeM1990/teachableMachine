@@ -156,6 +156,7 @@ async function loadMobileNetFeatureModel() {
     let classNumber = parseInt(this.getAttribute('data-1hot'));
     gatherDataState = (gatherDataState === STOP_DATA_GATHER) ? classNumber : STOP_DATA_GATHER;
     dataGatherLoop();
+    
   }
 
   function dataGatherLoop() {
@@ -201,6 +202,7 @@ async function loadMobileNetFeatureModel() {
     inputsAsTensor.dispose();
     predict = true;
     predictLoop();
+    
   }
   
   function logProgress(epoch, logs) {
