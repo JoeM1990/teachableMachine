@@ -1,6 +1,9 @@
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 
+/**
+ * @author Joe Monkila
+ */
 
 firebase.initializeApp({
 	apiKey: "",
