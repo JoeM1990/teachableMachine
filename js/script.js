@@ -1,6 +1,6 @@
-/*
-  Author : Joe MONKILA
-*/
+/**
+ * @author Joe Monkila
+ */
 
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
